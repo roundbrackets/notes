@@ -1,5 +1,5 @@
 ```
-bash-3.2$ cat  xc-sqlclaim.yaml
+bash-3.2$ cat  xrc-sqlclaim.yaml
 
 ---
 apiVersion: v1

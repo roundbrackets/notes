@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Delete everything"
-kubectl --namespace a-team delete --filename xc-sqlclaim.yaml
+kubectl --namespace a-team delete --filename xrc-sqlclaim.yaml
 
 echo "Wait for everything to be deletd."
 echo "If the db doesn't go away try kubectl patch database.postgresql.sql.crossplane.io my-db  --patch '{\"metadata\":{\"finalizers\":[]}}' --type=merge"
