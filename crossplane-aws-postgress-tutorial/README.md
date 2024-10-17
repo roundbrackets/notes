@@ -18,8 +18,8 @@ Sets up some aliases like k for kubectl, nvim for vi...
 pkg/aws-postgres.xpkg
 ---------------------
 
-Contains the dependencies, composition and xrd.
-A composite resource definition for "SQL", which in this case is a postres database. It's "inheriting" from `https://doc.crds.dev/github.com/crossplane/crossplane/apiextensions.crossplane.io/CompositeResourceDefinition/v1@v1.2.4`
+- Contains the dependencies, composition and xrd.
+- A composite resource definition for "SQL", which in this case is a postres database. It's "inheriting" from `https://doc.crds.dev/github.com/crossplane/crossplane/apiextensions.crossplane.io/CompositeResourceDefinition/v1@v1.2.4`
 
 Hosted in my repo at upbound. `xpkg.upbound.io/r0undbrackets/aws-postgres:v0.0.1` If you recreate it and store it somewhere else you need to update `pkg-configuration.yaml`.
 
@@ -28,11 +28,11 @@ Built with `build-aws-postgres.sh`.
 1 setup.sh
 ----------
 
-Creates a local cluster with kind.
-Install crossplane with helm.
-Collects AWS credentials - in this access key + secret = acct#
-Writes the creds to a file.
-Creates a secret in the crossplane-system namespace with the aws creds.
+- Creates a local cluster with kind.
+- Install crossplane with helm.
+- Collects AWS credentials - in this access key + secret = acct#
+- Writes the creds to a file.
+- Creates a secret in the crossplane-system namespace with the aws creds.
 
 `setup.sh`
 
@@ -50,8 +50,8 @@ Loads the package created above.
 
 It should up with `pkgrev` and `compositions`.
 
-See [packages.md](shelloutput/packages.md).
-See [compositions.md](shelloutput/compositions.md).
+- See [packages.md](shelloutput/packages.md).
+- See [compositions.md](shelloutput/compositions.md).
 
 4 aws-provider-config.yaml
 --------------------------
