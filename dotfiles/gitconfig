@@ -1,0 +1,15 @@
+[user]
+	email = tgunnarsson@XXX.com
+	name = Tina Gunnarsson
+[push]
+	default = current
+[diff]
+  # submodule = log
+  ignoreBlankLines = true
+  ignoreSpaceChange = true
+  ignoreAllSpace = true
+  algorithm = patience
+[core]
+  whitespace = -trailing-space,-space-before-tab,-indent-with-non-tab  
+[alias]
+  yamldiff = "!f() { $HOME/bin/yaml_git_diff \"$1\"; }; f"  

@@ -1,0 +1,61 @@
+" execute pathogen#infect()
+filetype plugin indent on
+syntax enable
+set foldmethod=syntax
+
+set tabstop=2
+set shiftwidth=2
+set sw=2
+set expandtab
+
+set rtp+=/opt/homebrew/opt/fzf
+
+let g:deoplete#enable_at_startup = 1
+let g:ale_completion_enabled = 1
+let g:airline#extensions#ale#enabled = 1
+
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+" Load vim plugs here. Also see https://github.com/junegunn/vim-plug
+call plug#begin('~/.vim/plugged')
+
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'juliosueiras/vim-terraform-completion', { 'for': 'terraform' }
+Plug 'hashivim/vim-terraform', { 'for': 'terraform' }
+"Plug 'Yggdroot/indentLine'
+Plug 'dense-analysis/ale'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'vim-airline/vim-airline'
+" Plug 'Shougo/deoplete.nvim'
+
+call plug#end()
+
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+let g:ale_lint_on_text_changed = 'never'
+
+if has("autocmd")
+  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab 
+  autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab fileencoding=utf-8 fileformat=unix foldmethod=indent
+  autocmd FileType php setlocal ts=2 sts=2 sw=2 expandtab
+endif
+
+" cmds
+nmap <F8> :TagbarToggle<CR>

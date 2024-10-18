@@ -1,0 +1,18 @@
+#!/bin/bash
+
+changes=false
+if [[ `git status --porcelain` ]]; then
+  changes=true
+fi
+
+if [[ $changes = "true" ]]; then 
+  git stash
+fi
+git fetch --all
+git rebase origin/master
+git checkout -b tgunnarsson/$1
+if [[ $changes = "true" ]]; then 
+  git stash pop
+  #git commit -a -m "First commit on tgunnarsson/$1"
+fi
+git push --set-upstream origin tgunnarsson/$1
