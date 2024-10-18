@@ -1,0 +1,127 @@
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+# HISTSIZE=1000
+# HISTFILESIZE=2000
+#
+#
+export EDITOR=/opt/homebrew/bin/nvim
+export VISUAL=/opt/homebrew/bin/nvim
+export BROWSER=/Applications/Opera.app/Contents/MacOS/Opera
+
+# markdown renderer
+# also see: https://github.com/charmbracelet/glamour#styles
+export GLAMOUR_STYLE=dark
+
+# Eternal bash history.
+# ---------------------
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+export HISTCONTROL=erasedups
+# Change the file location because certain bash sessions truncate 
+# .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+# PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+## Basic shell vars
+if ! echo $PATH | grep -q 'tgunnarsson/bin'; then 
+	export PATH=$HOME/bin:$HOME/.local/bin:$PATH
+fi
+
+
+# Setting PS1 below in the Colors section
+
+## Homebrew: Sets man path, path etc
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+## Sourcing local stuff
+SOURCE_PATH=~/lib/bash
+source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+source $SOURCE_PATH/color.inc.sh
+source $SOURCE_PATH/grc.inc.sh
+unset SOURCE_PATH
+
+## Colors
+export GRC_ALIASES=true
+export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
+
+UC=$COLOR_GREEN             # user's color
+[ $UID -eq "0" ] && UC=$COLOR_RED   # root's color
+
+PS1="\[${UC}\][\D{%m-%d} \A]${COLOR_NC}\$(kube_ps1)\[${COLOR_BROWN}\]:\w\[${COLOR_LIGHT_GREEN}\] ${UC}\n\\\$\[${COLOR_NC}\] "
+
+function findd {
+	local _prune="\( -path '$HOME/*' \( -name 'Library' -or -name '.Trash' -or -name vendor -or -name '.vscode' \) -o"
+	local _opts='-x'
+	local _search=$1
+	shift 1 
+	local _args=$(echo ${*} | sed -r -e 's/(/\\C/g' -e 's/)/\\)/g')
+	local cmd="/usr/bin/find $_opts $_search $_prune $_args -print"
+	echo "\$_args $_args"
+	echo "\$_search $_search"
+	#echo -e "  findd: ${COLOR_RED}Supressing errors & pruning.${COLOR_NC}" >&2
+	#echo "  $cmd 2>/dev/null" >&2
+	#$($cmd) 2>/dev/null
+}
+
+
+## Aliases
+alias vi=/opt/homebrew/bin/nvim
+alias sed="$(which sed) -r"
+# Show control char colors only
+alias less="$(which less) --RAW-CONTROL-CHARS --hilite-search --IGNORE-CASE"
+
+## kubectl
+source <(kubectl completion bash)
+alias k=kubectl
+complete -o default -F __start_kubectl k
+alias kx='f() { [ "$1" ] && kubectl config use-context $1 || kubectl config current-context ; } ; f'
+alias kn='f() { [ "$1" ] && kubectl config set-context --current --namespace $1 || kubectl config view --minify | grep namespace | cut -d" " -f6 ; } ; f'
+alias kxl="kubectl config get-contexts"
+alias knl="kubectl get namespaces"
+function kgetall {
+  for i in $(kubectl api-resources --verbs=list --namespaced -o name | grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
+    echo "Resource:" $i
+
+    if [ -z "$1" ]
+    then
+        kubectl get --ignore-not-found ${i}
+    else
+        kubectl -n ${1} get --ignore-not-found ${i}
+    fi
+  done
+}
+
+# Eternal bash history, cont.
+# ---------------------
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# Completing
+complete -C '/opt/homebrew/bin/aws_completer' aws
+
+yaml_git_diff() {
+    if [ "$1" = "" ]; then
+        echo "Usage: yaml_git_diff <file>"
+        return 1
+    fi
+
+    echo "$1";
+
+    # Get the committed version
+    git show HEAD:"$1" > /tmp/committed.yaml
+
+    # Use our Python script to compare
+    ~/bin/yamldiff.py /tmp/committed.yaml "$1"
+
+    # Clean up
+    rm /tmp/committed.yaml
+}
+
+source ~/.bash_local_profile
