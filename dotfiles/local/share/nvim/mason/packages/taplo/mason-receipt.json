@@ -1,0 +1,1 @@
+{"name":"taplo","links":{"opt":{},"share":{},"bin":{"taplo":"taplo-full-darwin-aarch64"}},"metrics":{"start_time":1729306168783,"completion_time":1729306179191},"primary_source":{"type":"registry+v1","id":"pkg:github\/tamasfe\/taplo@0.9.3"},"secondary_sources":[],"schema_version":"1.1"}

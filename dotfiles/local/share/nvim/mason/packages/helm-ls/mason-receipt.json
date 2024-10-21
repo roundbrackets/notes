@@ -1,0 +1,1 @@
+{"name":"helm-ls","links":{"opt":{},"share":{},"bin":{"helm_ls":"helm_ls_darwin_arm64"}},"metrics":{"start_time":1729306159864,"completion_time":1729306248133},"primary_source":{"type":"registry+v1","id":"pkg:github\/mrjosh\/helm-ls@v0.1.0"},"secondary_sources":[],"schema_version":"1.1"}

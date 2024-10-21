@@ -1,0 +1,1 @@
+{"name":"phpcs","links":{"opt":{},"share":{},"bin":{"phpcs":"phpcs"}},"metrics":{"start_time":1729306115445,"completion_time":1729306118696},"primary_source":{"type":"registry+v1","id":"pkg:github\/phpcsstandards\/php_codesniffer@3.10.3"},"secondary_sources":[],"schema_version":"1.1"}

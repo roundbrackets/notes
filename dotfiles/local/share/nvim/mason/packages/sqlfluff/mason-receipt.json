@@ -1,0 +1,1 @@
+{"name":"sqlfluff","links":{"opt":{},"share":{},"bin":{"sqlfluff":"venv\/bin\/sqlfluff"}},"metrics":{"start_time":1729306115769,"completion_time":1729306132539},"primary_source":{"type":"registry+v1","id":"pkg:pypi\/sqlfluff@3.2.4"},"secondary_sources":[],"schema_version":"1.1"}
